@@ -1,0 +1,19 @@
+@keyframes flap {
+  0%, 100% {
+    transform: translateY(0) scaleY(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-3px) scaleY(1.05) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-6px) scaleY(0.9) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-3px) scaleY(1.05) rotate(3deg);
+  }
+}
+.bat {
+  display: inline-block;
+  animation: flap 0.8s infinite ease-in-out;
+  transform-origin: center;
+}
