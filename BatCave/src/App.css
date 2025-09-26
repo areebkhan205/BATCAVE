@@ -17,3 +17,7 @@
   animation: flap 0.8s infinite ease-in-out;
   transform-origin: center;
 }
+/* App.css */
+body {
+  @apply bg-gradient-to-b from-[#0b0215] via-[#12022c] to-[#1a043d];
+}
