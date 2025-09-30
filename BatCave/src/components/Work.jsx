@@ -102,7 +102,7 @@ const projects = [
           { name: "Figma", color: "text-[#fbcfe8]" },
     ],
     image: Portfolio,
-    source_code_link: "https://github.com/your-repo/trip-guide",
+    source_code_link: "https://github.com/areebkhan205/Personal_portfolio",
   },
 ];
 
