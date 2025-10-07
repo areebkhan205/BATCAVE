@@ -1,89 +1,92 @@
+
 import { useEffect, useState } from "react";
 
 export const StarBackground = () => {
-  const [stars, setStars] = useState([]);
   const [meteors, setMeteors] = useState([]);
+  const [stars, setStars] = useState([]);
 
   useEffect(() => {
     generateStars();
     generateMeteors();
 
-    const handleResize = () => {
-      generateStars();
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    const meteorInterval = setInterval(generateMeteors, 4000);
+    return () => clearInterval(meteorInterval);
   }, []);
 
+  // --- Create stars ---
   const generateStars = () => {
-    const numberOfStars = Math.floor(
-      (window.innerWidth * window.innerHeight) / 10000
-    );
-
+    const numberOfStars = 80; // light on GPU, still looks dense
     const newStars = [];
+
     for (let i = 0; i < numberOfStars; i++) {
       newStars.push({
         id: i,
-        size: Math.random() * 3 + 1,
+        size: Math.random() * 1.5 + 0.5,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        opacity: Math.random() * 0.5 + 0.5,
-        animationDuration: Math.random() * 4 + 2,
+        opacity: Math.random() * 0.8 + 0.2,
+        twinkleDelay: Math.random() * 5,
       });
     }
     setStars(newStars);
   };
 
+  // --- Create meteors ---
   const generateMeteors = () => {
-    const numberOfMeteors = 4;
+    const numberOfMeteors = 8; // smooth performance
     const newMeteors = [];
+
     for (let i = 0; i < numberOfMeteors; i++) {
       newMeteors.push({
-        id: i,
-        size: Math.random() * 2 + 1,
+        id: i + "-" + Date.now(),
+        length: Math.random() * 80 + 60,
+        thickness: Math.random() * 1.5 + 0.8,
         x: Math.random() * 100,
-        y: Math.random() * 20,
-        delay: Math.random() * 15,
-        animationDuration: Math.random() * 3 + 3,
+        y: Math.random() * 30,
+        delay: Math.random() * 5,
+        duration: Math.random() * 2 + 3,
+        hue: Math.floor(Math.random() * 30) + 210,
       });
     }
     setMeteors(newMeteors);
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Stars */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 ">
+      {/* ✨ Stars */}
       {stars.map((star) => (
         <div
           key={star.id}
-          className="bg-white rounded-full animate-pulse-subtle"
+          className="absolute rounded-full animate-twinkle"
           style={{
-            width: star.size + "px",
-            height: star.size + "px",
-            left: star.x + "%",
-            top: star.y + "%",
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            backgroundColor: "white",
             opacity: star.opacity,
-            animationDuration: star.animationDuration + "s",
-            position: "absolute",
+            animationDelay: `${star.twinkleDelay}s`,
           }}
         />
       ))}
 
-      {/* Meteors */}
+      {/* ☄️ Meteors */}
       {meteors.map((meteor) => (
         <div
           key={meteor.id}
-          className="bg-white rounded-full animate-meteor"
+          className="absolute animate-meteorTrail"
           style={{
-            width: meteor.size * 20 + "px",
-            height: meteor.size + "px",
-            left: meteor.x + "%",
-            top: meteor.y + "%",
-            animationDelay: meteor.delay + "s",
-            animationDuration: meteor.animationDuration + "s",
-            position: "absolute",
+            left: `${meteor.x}%`,
+            top: `${meteor.y}%`,
+            width: `${meteor.length}px`,
+            height: `${meteor.thickness}px`,
+            background: `linear-gradient(90deg, hsla(${meteor.hue},100%,80%,1), transparent)`,
+            opacity: 0.8,
+            transform: "rotate(45deg)",
+            animationDelay: `${meteor.delay}s`,
+            animationDuration: `${meteor.duration}s`,
+            borderRadius: "2px",
+            filter: "blur(0.5px)", // soft glow without lag
           }}
         />
       ))}

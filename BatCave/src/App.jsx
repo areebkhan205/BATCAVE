@@ -1,4 +1,5 @@
 import './App.css'
+import CertificateShowcase from './components/CertificateShowcase'
 import Contact from './components/Contact'
 import FEAT from "./components/Main"
 import NAV from './components/NAV'
@@ -18,8 +19,11 @@ function App() {
         <div className='relative top-[300px]'>
    <TechSection/>
         </div>
+        
+        <CertificateShowcase/>
+           <Contact/>
       </div>
-      <Contact/>
+   
     </>
   )
 }
