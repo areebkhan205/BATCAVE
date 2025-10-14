@@ -375,7 +375,7 @@ export default function WorkExp() {
       <motion.div variants={textVariant()} className="text-center">
         <p className={`${styles.sectionSubText} uppercase`}>My Work</p>
         <h2 className="mt-3 text-[54px] leading-[1] font-extrabold">
-          <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <span className="text-white bg-clip-text ">
             Work Experience
           </span>
         </h2>

@@ -1,174 +1,190 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import borderImg from "../assets/bb22.png";
 
-// Achievements Images
-import ambasadoor from "../assets/ambasadoor.jpg";
-import certificate1 from "../assets/certificate1.jpg";
-import certificate2 from "../assets/certificate2.jpg";
-import certificate3 from "../assets/certificate3.jpg";
-import certificate4 from "../assets/certificate4.jpg";
-import certificate5 from "../assets/certificate5.jpg";
-import certificate6 from "../assets/certificate6.jpg";
-import certificate7 from "../assets/certificate7.jpg";
-import zidiotra from "../assets/zidiotra.jpg";
+// images (a1 -> a7)
+import a1 from "../assets/a1.png";
+import a2 from "../assets/a2.png";
+import a3 from "../assets/a3.png";
+import a4 from "../assets/a4.png";
+import a5 from "../assets/a5.png";
+import a6 from "../assets/a6.png";
+import a7 from "../assets/a7.png";
 
-// ✅ Animation Variants (same as Projects)
-export const textVariant = (delay = 0) => ({
-  hidden: { y: -40, opacity: 0 },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring", duration: 1.1, delay },
-  },
-});
-
-export const fadeIn = (
-  direction = "",
-  type = "tween",
-  delay = 0,
-  duration = 0.6
-) => ({
-  hidden: {
-    x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-    y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
-    opacity: 0,
-  },
-  show: {
-    x: 0,
-    y: 0,
-    opacity: 1,
-    transition: { type, delay, duration, ease: "easeOut" },
-  },
-});
-
-export const staggerContainer = (staggerChildren = 0.12) => ({
-  hidden: {},
-  show: { transition: { staggerChildren } },
-});
-
-const certificates = [
-  { src: certificate1, alt: "Certificate 1" },
-  { src: certificate2, alt: "Certificate 2" },
-  { src: certificate3, alt: "Certificate 3" },
-  { src: certificate4, alt: "Certificate 4" },
-  { src: certificate5, alt: "Certificate 5" },
-  { src: certificate6, alt: "Certificate 6" },
-  { src: certificate7, alt: "Certificate 7" },
-  { src: ambasadoor, alt: "Student Ambassador - Galgotias University" },
-  { src: zidiotra, alt: "Internship Certificate - Zidio Development" },
-];
-
-export default function CertificateLoop() {
+export default function PhotoLoop({ speed = 60, gap = 16 }) {
+  const containerRef = useRef(null);
   const trackRef = useRef(null);
-  const [hovered, setHovered] = useState(false);
-  const speed = 50;
-  const copies = 2;
+  const [paused, setPaused] = useState(false);
+  const [cardSize, setCardSize] = useState({ width: 280, height: 180 });
+  const photos = [a1, a2, a3, a4, a5, a6, a7];
 
+  // Resize logic
   useEffect(() => {
-    let animationFrame;
-    let lastTime = performance.now();
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+
+    const resize = () => {
+      const w = el.clientWidth;
+      const width = Math.max(
+        140,
+        Math.min(380, Math.floor(w / (w < 480 ? 2 : w < 768 ? 3 : 4)) - gap)
+      );
+      const height = Math.round((width * 9) / 16);
+      setCardSize({ width, height });
+    };
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [gap]);
+
+  // Infinite scroll animation
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
     let offset = 0;
 
-    const animate = (time) => {
-      const delta = time - lastTime;
-      lastTime = time;
+    const animate = (now) => {
+      const delta = now - last;
+      last = now;
 
-      if (!hovered && trackRef.current) {
+      if (!paused && trackRef.current) {
         offset -= (speed * delta) / 1000;
         trackRef.current.style.transform = `translateX(${offset}px)`;
 
-        const trackWidth = trackRef.current.scrollWidth / copies;
-        if (Math.abs(offset) >= trackWidth) offset = 0;
+        const setWidth = trackRef.current.scrollWidth / 2 || 0;
+        if (Math.abs(offset) >= setWidth) offset = 0;
       }
 
-      animationFrame = requestAnimationFrame(animate);
+      raf = requestAnimationFrame(animate);
     };
 
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [hovered]);
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [paused, speed]);
+
+  const handleMouseEnter = () => setPaused(true);
+  const handleMouseLeave = () => setPaused(false);
+  const handleTouchStart = () => setPaused(true);
+  const handleTouchEnd = () => setPaused(false);
+
+  const copies = 2;
 
   return (
-    <motion.section
-      variants={staggerContainer()}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-      className="w-full py-20  flex flex-col items-center relative overflow-hidden"
-    >
-      {/* ===== Animated Heading ===== */}
-      <motion.div variants={textVariant()}>
-        <p className="text-gray-400 text-sm tracking-widest uppercase text-center">
-          My Journey
-        </p>
-        <h2 className="mt-3 text-[54px] leading-[1] font-extrabold text-white text-center">
-          My Achievements.
-        </h2>
-      </motion.div>
+    <section className="w-full relative py-16 overflow-hidden">
+      {/* ===== Heading with animated lines ===== */}
+      <div className="flex flex-col items-center justify-center mb-12 relative">
+        {/* Top animated line */}
+        <motion.div
+          className="h-[2px] w-2/3 bg-gradient-to-r from-transparent via-blue-400 to-transparent absolute top-0"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        />
 
-      {/* ===== Subheading line ===== */}
-      <motion.p
-        variants={fadeIn("", "", 0.2, 1)}
-        className="mt-6 text-gray-300 text-[17px] max-w-3xl leading-[30px] text-center"
-      >
-        Every milestone is a reflection of dedication and learning.  
-        These achievements highlight my growth as a developer — from building innovative projects  
-        to contributing to real-world solutions and leadership experiences.
-      </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-blue-500 via-cyan-400 to-green-400 bg-clip-text text-transparent px-4 mt-6 relative z-10"
+        >
+          My Achievements
+        </motion.h2>
 
-      {/* ===== Infinite Certificate Loop ===== */}
-      <motion.div
-        variants={fadeIn("up", "spring", 0.3, 1)}
-        className="relative w-full overflow-hidden py-12 mt-10 flex justify-center"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        {/* Description below heading */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 1 }}
+          className="text-center text-gray-400 text-sm md:text-base mt-4 max-w-xl"
+        >
+          A glimpse of milestones that showcase my dedication, learning, and
+          success throughout my journey.
+        </motion.p>
+
+        {/* Bottom line under heading */}
+        <motion.div
+          className="h-[2px] w-1/2 bg-gradient-to-r from-transparent via-green-400 to-transparent mt-6"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}
+        />
+      </div>
+
+      {/* ===== Scrolling Certificates ===== */}
+      <div
+        ref={containerRef}
+        aria-label="Scrolling photo gallery"
+        className="w-full overflow-hidden"
       >
         <div
-          ref={trackRef}
-          className="flex items-center gap-10 will-change-transform"
-          style={{ transition: "transform 0.2s linear" }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className="w-full"
         >
-          {Array.from({ length: copies }).map((_, copyIndex) =>
-            certificates.map((cert, i) => {
-              const isCustomSize =
-                cert.alt.includes("Ambassador") || cert.alt.includes("Zidio");
+          <div
+            ref={trackRef}
+            className="flex items-center gap-4 will-change-transform"
+            style={{ transition: "transform 0.12s linear" }}
+          >
+            {Array.from({ length: copies }).map((_, copyIndex) =>
+              photos.map((src, i) => {
+                let customStyle = {};
+                let imgScale = 1;
 
-              return (
-                <div
-                  key={`${copyIndex}-${i}`}
-                  className={`relative flex items-center justify-center shrink-0 ${
-                    isCustomSize
-                      ? "w-[300px] h-[360px] sm:w-[340px] sm:h-[400px]"
-                      : "w-[360px] h-[260px] sm:w-[420px] sm:h-[300px]"
-                  } rounded-2xl`}
-                  style={{
-                    backgroundImage: `url(${borderImg})`,
-                    backgroundSize: "100% 100%",
-                    backgroundPosition: "center",
-                    padding: "22px",
-                  }}
-                >
-                  <img
-                    src={cert.src}
-                    alt={cert.alt}
-                    className="w-full h-full object-contain rounded-xl shadow-md transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-[0_0_30px_#00ffff90]"
+                // Reduce certificate size for a1 and a6
+                if (i === 0) {
+                  customStyle = { alignSelf: "flex-start" };
+                  imgScale = 0.85;
+                }
+                if (i === 5) {
+                  customStyle = { alignSelf: "flex-end" };
+                  imgScale = 0.85;
+                }
+
+                return (
+                  <motion.div
+                    key={`${copyIndex}-${i}`}
+                    role="listitem"
+                    tabIndex={0}
+                    onFocus={() => setPaused(true)}
+                    onBlur={() => setPaused(false)}
+                    whileHover={{ scale: 1.05 }}
+                    className="shrink-0 rounded-2xl overflow-hidden shadow-lg flex items-center justify-center  "
                     style={{
-                      borderRadius: "12px",
-                      filter: "brightness(0.97)",
-                      backgroundColor: "white",
+                      width: cardSize.width,
+                      height: cardSize.height,
+                      minWidth: cardSize.width,
+                      ...customStyle,
                     }}
-                  />
-                </div>
-              );
-            })
-          )}
+                  >
+                    <img
+                      src={src}
+                      alt={`Achievement ${i + 1}`}
+                      loading="lazy"
+                      className="object-contain transition-transform duration-300 ease-in-out"
+                      style={{
+                        width: `${imgScale * 190}%`,
+                        height: `${imgScale * 160}%`,
+                      }}
+                    />
+                  </motion.div>
+                );
+              })
+            )}
+          </div>
         </div>
+      </div>
 
-        {/* Fading edges */}
-        <div className="absolute left-0 top-0 w-32 h-full  pointer-events-none"></div>
-        <div className="absolute right-0 top-0 w-32 h-full  pointer-events-none"></div>
-      </motion.div>
-    </motion.section>
+      {/* ===== Bottom Line ===== */}
+      <motion.div
+        className="h-[2px] w-2/3 mx-auto mt-12 bg-gradient-to-r from-transparent via-green-400 to-transparent"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+      />
+    </section>
   );
 }

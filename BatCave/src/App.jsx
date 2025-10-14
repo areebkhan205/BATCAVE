@@ -1,6 +1,7 @@
 import './App.css'
 import CertificateShowcase from './components/CertificateShowcase'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 import FEAT from "./components/Main"
 import NAV from './components/NAV'
 import TechSection from './components/TechSection'
@@ -22,6 +23,7 @@ function App() {
         
         <CertificateShowcase/>
            <Contact/>
+           <Footer/>
       </div>
    
     </>
