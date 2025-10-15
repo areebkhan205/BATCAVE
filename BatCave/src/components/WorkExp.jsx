@@ -1,252 +1,10 @@
-// // src/components/WorkExp.jsx
-// import { motion, useInView } from "framer-motion";
-// import { useRef } from "react";
-// import battt from "../assets/battts.png";
-// import galgotiasLogo from "../assets/galgotias.png";
-// import globe from "../assets/globe.png";
-// import oasisLogo from "../assets/oasis.png";
-// import zidioLogo from "../assets/zidio.png";
-
-// /* -------------------------
-//    Inline motion variants
-//    ------------------------- */
-// const textVariant = (delay = 0) => ({
-//   hidden: { y: -40, opacity: 0 },
-//   show: { y: 0, opacity: 1, transition: { type: "spring", duration: 1.1, delay } },
-// });
-
-// const fadeIn = (direction = "", type = "tween", delay = 0, duration = 0.6) => ({
-//   hidden: {
-//     x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-//     y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
-//     opacity: 0,
-//   },
-//   show: { x: 0, y: 0, opacity: 1, transition: { type, delay, duration, ease: "easeOut" } },
-// });
-
-// const staggerContainer = (staggerChildren = 0.12, delayChildren = 0) => ({
-//   hidden: {},
-//   show: { transition: { staggerChildren, delayChildren } },
-// });
-
-// /* -------------------------
-//    Styles (small local object)
-//    ------------------------- */
-// const styles = {
-//   padding: "px-4 sm:px-16 py-12",
-//   sectionSubText: "text-gray-400 text-sm tracking-widest",
-// };
-
-// /* -------------------------
-//    Helper subcomponents
-//    ------------------------- */
-// const GlobeDecor = () => (
-//   <img
-//     src={globe}
-//     alt=""
-//     aria-hidden="true"
-//     className="absolute top-[-22px] left-[10px] transform -translate-x-1/2 w-24 md:w-32 pointer-events-none"
-//   />
-// );
-
-// const LogoMarker = ({ src, alt, company }) => {
-//   const logoSize =
-//     company === "zidio" || company === "galgotias" ? "w-18 h-18 md:w-20 md:h-20" : "w-14 h-14 md:w-16 md:h-16";
-
-//   return (
-//     <div className="w-20 h-20 md:w-20 md:h-20 flex items-center justify-center rounded-full bg-white">
-//       <img src={src} alt={alt} className={`${logoSize} object-contain`} />
-//     </div>
-//   );
-// };
-
-// /* -------------------------
-//    Experience data
-//    ------------------------- */
-// const experiences = [
-//   {
-//     company: "ZIDIO DEVELOPMENT",
-//     role: "Web Developer & Designer Intern",
-//     period: "Aug 2025 - Sep 2025",
-//     logo: zidioLogo,
-//     skills: ["React", "Tailwind", "Motion", "Lucide", "Firebase"],
-//     desc:
-//       "Assisted in designing, developing, and maintaining responsive web applications. Worked on UI/UX, database integration and APIs while collaborating to troubleshoot, optimize and implement features.",
-//   },
-//   {
-//     company: "GALGOTIAS UNIVERSITY",
-//     role: "Campus Ambassador Intern",
-//     period: "June 2025 - Present",
-//     logo: galgotiasLogo,
-//     skills: ["Leadership", "Mentor", "Communication", "Networking"],
-//     desc:
-//       "Promoted events and initiatives, engaged with students, and collected feedback — building skills in communication, leadership, and brand representation.",
-//   },
-//   {
-//     company: "OASIS INFOBYTE",
-//     role: "Web Developer / Designing Intern",
-//     period: "June 2025 – Aug 2025",
-//     logo: oasisLogo,
-//     skills: ["HTML", "CSS", "JavaScript", "Designing"],
-//     desc:
-//       "Worked on full-stack web projects, designed user-friendly interfaces, and applied real-world development practices to boost technical confidence.",
-//   },
-// ];
-
-// /* -------------------------
-//    Single file WorkExp component
-//    ------------------------- */
-// export default function WorkExp() {
-//   // Timeline grow refs (desktop & mobile)
-//   const desktopLineRef = useRef(null);
-//   const desktopInView = useInView(desktopLineRef, { once: true, margin: "-120px" });
-//   const mobileLineRef = useRef(null);
-//   const mobileInView = useInView(mobileLineRef, { once: true, margin: "-120px" });
-
-//   return (
-//     <motion.section
-//       id="work-experience"
-//       variants={staggerContainer(0.12)}
-//       initial="hidden"
-//       whileInView="show"
-//       viewport={{ once: true, amount: 0.2 }}
-//       className={`${styles.padding} max-w-7xl mx-auto relative z-0`}
-//     >
-//       {/* Heading area (animated) */}
-//       <motion.div variants={textVariant()} className="text-center mb-8 md:mb-12">
-//         <p className={`${styles.sectionSubText} uppercase`}>My Work</p>
-
-//         <h2 className="mt-3 text-[54px] leading-[1] font-extrabold">
-//           <motion.span
-//             variants={fadeIn("", "spring", 0.05, 0.9)}
-//             className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent"
-//           >
-//             Work Experience
-//           </motion.span>
-//         </h2>
-//       </motion.div>
-
-//       {/* Short description */}
-//       <motion.div variants={fadeIn("", "", 0.1, 1)} className="w-full flex justify-center">
-//         <motion.p className="mt-6 text-gray-300 text-[17px] max-w-3xl leading-[30px] text-center">
-//           These roles highlight my growth as a developer and collaborator — building responsive apps,
-//           improving UX, and working across the full development lifecycle.
-//         </motion.p>
-//       </motion.div>
-
-//       {/* Timeline lines */}
-//       <div className="relative mt-12 min-h-[640px]">
-//         {/* Desktop vertical timeline */}
-//         <motion.div
-//           ref={desktopLineRef}
-//           initial={{ scaleY: 0 }}
-//           animate={{ scaleY: desktopInView ? 1 : 0 }}
-//           transition={{ duration: 2.2, ease: "easeOut" }}
-//           style={{ transformOrigin: "top" }}
-//           className="hidden md:block absolute top-20 left-1/2 -translate-x-1/2 w-1 bg-gradient-to-b from-purple-500 to-pink-500 h-[85%] z-0"
-//         />
-
-//         {/* Mobile timeline (left) */}
-//         <motion.div
-//           ref={mobileLineRef}
-//           initial={{ scaleY: 0 }}
-//           animate={{ scaleY: mobileInView ? 1 : 0 }}
-//           transition={{ duration: 1.2, ease: "easeOut" }}
-//           style={{ transformOrigin: "top" }}
-//           className="md:hidden absolute left-6 top-2 w-1 bg-gradient-to-b from-purple-500 to-pink-500 h-full z-0"
-//         />
-
-//         {/* Cards grid — each card uses inline variants */}
-//         <div className="relative z-10 space-y-10 md:space-y-16">
-//           {experiences.map((exp, index) => {
-//             const isLeft = index % 2 === 0; // alternate sides on desktop
-//             return (
-//               <article key={exp.company} className="flex items-center w-full flex-col md:flex-row">
-//                 {/* Logo marker centered on timeline */}
-//                 <div className="absolute md:left-1/2 left-6 transform md:-translate-x-1/2 z-20">
-//                   <LogoMarker src={exp.logo} alt={exp.company} company={exp.company.toLowerCase()} />
-//                 </div>
-
-//                 {/* Card container (alternates sides on desktop) */}
-//                 <div
-//                   className={`w-full md:w-[calc(50%-4rem)] ${
-//                     isLeft ? "pl-12 md:mr-auto md:pl-16" : "pl-12 md:pl-0 md:ml-auto md:pr-16"
-//                   }`}
-//                 >
-//                   <motion.div
-//                     variants={fadeIn(isLeft ? "right" : "left", "spring", index * 0.12, 0.8)}
-//                     initial="hidden"
-//                     whileInView="show"
-//                     viewport={{ once: true, amount: 0.3 }}
-//                     whileHover={{ scale: 1.03 }}
-//                     transition={{ type: "spring", stiffness: 120 }}
-//                     className="relative card space-y-3 shadow-2xl border-2 border-purple-900/30
-//                                hover:shadow-[0_0_25px_5px_rgba(168,85,247,0.7)]
-//                                transition-all duration-300 p-4 md:p-6 overflow-visible bg-gradient-to-b from-[#12021b] to-[#281232]"
-//                   >
-//                     {/* Decorative globe placed near top-left */}
-//                     <div className="relative -top-10 -left-6">
-//                       <GlobeDecor />
-//                     </div>
-
-//                     {/* Animated bats (two floats) */}
-//                     <motion.img
-//                       src={battt}
-//                       alt="bat-left"
-//                       className="absolute top-2 left-2 h-8 w-10 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"
-//                       animate={{ y: [0, -6, 0] }}
-//                       transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.1 }}
-//                     />
-//                     <motion.img
-//                       src={battt}
-//                       alt="bat-right"
-//                       className="absolute top-2 right-2 h-8 w-10 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"
-//                       animate={{ y: [0, -6, 0] }}
-//                       transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.1 + 0.5 }}
-//                     />
-
-//                     {/* Title + role */}
-//                     <h3 className="text-2xl md:text-3xl font-bold">
-//                       <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-//                         {exp.company}
-//                       </span>
-//                     </h3>
-//                     <p className="text-lg md:text-xl text-purple-300">{exp.role}</p>
-//                     <p className="text-xs md:text-sm text-gray-400">{exp.period}</p>
-
-//                     {/* skill chips */}
-//                     <div className="flex flex-row flex-wrap font-poppins justify-center gap-3">
-//                       {exp.skills.map((s) => (
-//                         <button
-//                           key={s}
-//                           className="px-3 py-1 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-sm text-white"
-//                         >
-//                           {s}
-//                         </button>
-//                       ))}
-//                     </div>
-
-//                     {/* description */}
-//                     <p className="text-sm md:text-base text-gray-300 mb-4">{exp.desc}</p>
-//                   </motion.div>
-//                 </div>
-//               </article>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </motion.section>
-//   );
-// }
-// src/components/WorkExp.jsx
 import { motion } from "framer-motion";
-
 import galgotiasLogo from "../assets/galgotias.png";
 import oasisLogo from "../assets/oasis.png";
 import zidioLogo from "../assets/zidio.png";
 
 /* -------------------------
-   Motion Variants
+   Motion Variants and helpers
    ------------------------- */
 const textVariant = (delay = 0) => ({
   hidden: { y: -40, opacity: 0 },
@@ -262,13 +20,13 @@ const fadeIn = (direction = "", type = "tween", delay = 0, duration = 0.6) => ({
   show: { x: 0, y: 0, opacity: 1, transition: { type, delay, duration, ease: "easeOut" } },
 });
 
-const staggerContainer = (staggerChildren = 0.15) => ({
+const staggerContainer = (staggerChildren = 0.12) => ({
   hidden: {},
   show: { transition: { staggerChildren } },
 });
 
 /* -------------------------
-   Styles
+   Styles (local strings)
    ------------------------- */
 const styles = {
   padding: "px-4 sm:px-16 py-12",
@@ -284,79 +42,124 @@ const experiences = [
     role: "Web Developer & Designer Intern",
     period: "Aug 2025 - Sep 2025",
     logo: zidioLogo,
-    skills: ["React", "Tailwind", "Motion", "Lucide", "Firebase"],
+    skills: ["React", "Tailwind", "Motion", "Firebase"],
     desc:
-      "Assisted in designing, developing, and maintaining responsive web applications. Worked on UI/UX, database integration, and APIs while collaborating to troubleshoot, optimize performance, and implement features.",
+      "Built and optimized production web apps using React and Tailwind. Implemented secure auth flows and efficient data fetching with Firebase.",
+    achievements: [
+      "Built responsive dashboards — improved UI rendering performance by 15%",
+      "Integrated Firebase Auth + Firestore for secure user data storage",
+      "Polished animations and UX using Framer Motion (smooth interactions)",
+    ],
   },
   {
     company: "Galgotias University",
     role: "Campus Ambassador Intern",
     period: "June 2025 - Present",
     logo: galgotiasLogo,
-    skills: ["Leadership", "Mentor", "Communication", "Networking"],
+    skills: ["Leadership", "Communication", "Networking"],
     desc:
-      "Promoted events and initiatives, engaged with students, and collected feedback — building strong skills in communication, leadership, and brand representation.",
+      "Led student outreach, coordinated events, and created campaigns to boost engagement and brand presence on campus.",
+    achievements: [
+      "Organized 5+ large campus events with 200+ attendees each",
+      "Managed ambassador team that increased participation by 30%",
+      "Forged partnerships with local tech communities and sponsors",
+    ],
   },
   {
     company: "Oasis Infobyte",
     role: "Web Developer / Designing Intern",
     period: "June 2025 – Aug 2025",
     logo: oasisLogo,
-    skills: ["HTML", "CSS", "JavaScript", "Designing"],
+    skills: ["HTML", "CSS", "JavaScript", "Design"],
     desc:
-      "Worked on full-stack web projects, sharpening my skills in HTML, CSS, JavaScript, and responsive design. Designed clean, user-friendly interfaces and applied real-world development practices.",
+      "Worked on front-end projects, created reusable UI components, and improved accessibility and responsiveness.",
+    achievements: [
+      "Delivered 3 responsive websites with modern UI/UX",
+      "Built reusable component library to accelerate development",
+      "Optimized page load and improved mobile experience",
+    ],
   },
 ];
 
 /* -------------------------
-   Card Component
+   ExpCard — smooth flip
    ------------------------- */
-const ExpCard = ({ index, company, role, period, logo, skills, desc }) => (
-  <motion.div
-    variants={fadeIn("up", "spring", index * 0.2, 0.8)}
-    whileHover={{ scale: 1.04 }}
-    transition={{ type: "spring", stiffness: 120 }}
-    className="relative w-full sm:w-[320px] md:w-[360px] flex"
-  >
-    <div
-      className="relative rounded-2xl p-6 pt-14 flex flex-col justify-between
-        min-h-[420px] w-full
-        bg-gradient-to-b from-[#1f0738] to-[#2b0f3f]
-        shadow-[0_10px_30px_rgba(59,0,80,0.45)]
-        hover:shadow-[0_18px_45px_rgba(168,85,247,0.65)]
-        transition-all duration-300 ease-out border border-purple-900/30"
+const ExpCard = ({ index, company, role, period, logo, skills, desc, achievements }) => {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 24 },
+        show: { opacity: 1, y: 0, transition: { delay: index * 0.12, type: "spring", stiffness: 110 } },
+      }}
+      className="w-full sm:w-[320px] md:w-[340px] lg:w-[360px] perspective"
     >
-      {/* Logo badge */}
-      <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-lg">
-        <img src={logo} alt={company} className="w-14 h-14 object-contain" />
-      </div>
+      {/* inner card — we animate rotateY on this element */}
+      <motion.div
+        className="card-inner relative w-full h-[480px] cursor-pointer rounded-2xl"
+        whileHover={{
+          rotateY: 180,
+          transition: { type: "spring", stiffness: 220, damping: 22 },
+        }}
+        whileTap={{ scale: 0.985 }}
+        style={{ transformStyle: "preserve-3d" }}
+        initial={false}
+      >
+        {/* Front face */}
+        <div
+          className="card-face card-front absolute bg-gradient-to-b from-[#1f0738] to-[#2b0f3f] shadow-[0_10px_30px_rgba(59,0,80,0.45)] border border-purple-900/30 flex flex-col justify-between p-6 pt-16 rounded-2xl"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-lg">
+            <img src={logo} alt={company} className="w-14 h-14 object-contain" />
+          </div>
 
-      {/* Top content */}
-      <div>
-        <h3 className="text-center text-[20px] font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-          {company}
-        </h3>
-        <p className="text-purple-300 text-center text-sm">{role}</p>
-        <p className="text-gray-400 text-center text-xs mb-4">{period}</p>
-      </div>
+          <div>
+            <h3 className="text-center text-[20px] font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+              {company}
+            </h3>
+            <p className="text-purple-300 text-center text-sm">{role}</p>
+            <p className="text-gray-400 text-center text-xs mb-4">{period}</p>
+          </div>
 
-      {/* Skills */}
-      <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {skills.map((s, i) => (
-          <span
-            key={i}
-            className="px-3 py-1 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-xs text-white shadow-sm"
-          >
-            {s}
-          </span>
-        ))}
-      </div>
+          <div className="flex flex-wrap justify-center gap-2 mb-4">
+            {skills.map((s, i) => (
+              <motion.span
+                key={i}
+                className="px-3 py-1 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-xs text-white shadow-sm"
+                animate={{ y: [4, 0, 4] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.18 }}
+              >
+                {s}
+              </motion.span>
+            ))}
+          </div>
 
-      {/* Description */}
-      <p className="text-gray-300 text-sm leading-6 text-center">{desc}</p>
-    </div>
-  </motion.div>
-);
+          <p className="text-gray-300 text-sm leading-6 text-center">{desc}</p>
+        </div>
+
+        {/* Back face — rotated 180deg so it becomes visible after rotation */}
+        <div
+          className="card-face absolute bg-gradient-to-b from-[#2b0f3f] to-[#1f0738] shadow-[0_10px_30px_rgba(59,0,80,0.45)] border border-purple-900/30 flex flex-col justify-start items-center text-center p-6 pt-16 rounded-2xl"
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
+          <h4 className="text-white font-bold text-lg mb-4 border-b border-purple-700/50 pb-2 w-full">Achievements</h4>
+
+          <ul className="space-y-3 text-gray-300 text-sm px-3 w-full">
+            {achievements.map((a, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-3 bg-purple-900/20 py-2 px-3 rounded-xl hover:bg-purple-800/35 transition-all duration-250"
+              >
+                <span className="text-lg leading-none">{/* decorative bullet */}•</span>
+                <span className="text-left">{a}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 /* -------------------------
    Section Component
@@ -371,26 +174,21 @@ export default function WorkExp() {
       viewport={{ once: true, amount: 0.25 }}
       className={`${styles.padding} max-w-7xl mx-auto relative z-0`}
     >
-      {/* Heading */}
       <motion.div variants={textVariant()} className="text-center">
         <p className={`${styles.sectionSubText} uppercase`}>My Work</p>
         <h2 className="mt-3 text-[54px] leading-[1] font-extrabold">
-          <span className="text-white bg-clip-text ">
-            Work Experience
-          </span>
+          <span className="text-white bg-clip-text">Work Experience</span>
         </h2>
       </motion.div>
 
-      {/* Description */}
       <motion.div variants={fadeIn("", "", 0.1, 1)} className="w-full flex justify-center">
         <p className="mt-6 text-gray-300 text-[17px] max-w-3xl leading-[30px] text-center">
-          These roles showcase my growth as a developer and collaborator — building apps, improving
-          UX, and contributing across the full development lifecycle.
+          Each experience shaped my journey — from building applications to leading initiatives and delivering outcomes.
         </p>
       </motion.div>
 
-      {/* Cards Grid */}
-      <div className="mt-14 flex flex-wrap gap-8 justify-center">
+      {/* Single-row alignment on wide screens, wraps on small screens */}
+      <div className="mt-14 flex flex-wrap gap-8 justify-center lg:justify-center items-stretch">
         {experiences.map((exp, i) => (
           <ExpCard key={i} index={i} {...exp} />
         ))}

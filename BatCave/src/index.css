@@ -27,3 +27,30 @@
       opacity: 1;
       transform: scale(1);
     }
+
+
+    /* required for proper 3D flip */
+.perspective {
+  perspective: 1200px;
+}
+
+/* slightly better GPU hints */
+.card-inner {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* faces */
+.card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* small visual depth tweak for the front face (helps reduce flicker) */
+.card-front {
+  transform: translateZ(0.1px);
+}

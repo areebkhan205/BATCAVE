@@ -1,9 +1,15 @@
+import { ArrowUp } from "lucide-react"; // Using react-icons for arrow
 import gith from "../assets/github (1).png";
 import linkn from "../assets/linkedin (2).png";
 import mail from "../assets/mail-svgrepo-com.svg";
 import thunder from "../assets/thunder-svgrepo-com.svg";
 
 export default function Footer() {
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer id="contact" className="relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-purple-900/20" />
@@ -12,7 +18,6 @@ export default function Footer() {
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center space-y-8 mb-8">
             <div className="flex justify-center space-x-8">
-              
               {/* GITHUB */}
               <a
                 href="https://github.com/areebkhan205"
@@ -35,7 +40,7 @@ export default function Footer() {
 
               {/* LINKEDIN */}
               <a
-                href="https://www.linkedin.com/in/areeb-khan-533754317?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                href="https://www.linkedin.com/in/areeb-khan-533754317"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative p-3 hover:scale-110 transition-transform bg-gray-900/50 rounded-lg border border-gray-800/50"
@@ -96,6 +101,15 @@ export default function Footer() {
               All rights reserved
             </p>
           </div>
+
+          {/* BACK TO TOP ARROW */}
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 bg-purple-700 hover:bg-purple-800 text-white p-3 rounded-full shadow-lg transition-transform hover:scale-110"
+            aria-label="Back to Top"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </footer>

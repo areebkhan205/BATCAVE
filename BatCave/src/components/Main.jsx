@@ -1,11 +1,12 @@
 'use client';
-
 import Arrow from "../assets/Arrow.png";
+import github from "../assets/github (1).png";
 import gradient from "../assets/Gradient (1).png";
+import Leetcode from "../assets/leetcode.png";
+import linkn from "../assets/linkedin (2).png";
 import avtar from "../assets/Me.png";
 import Dock from "../components/Dock"; // <-- your Dock component
 import TextType from "../components/Word";
-
 function Main() {
   // Sample dock items
   const dockItems = [
@@ -16,13 +17,19 @@ function Main() {
     },
     { 
       label: "GitHub", 
-      icon: <img src="/assets/github.png" alt="GitHub" className="w-6 h-6" />, 
-      onClick: () => window.open("https://github.com/areebkhan", "_blank") 
+      icon: <img src= {github} alt="GitHub" className="w-6 h-6" />, 
+      onClick: () => window.open("https://github.com/areebkhan205", "_blank") 
     },
     { 
       label: "LinkedIn", 
-      icon: <img src="/assets/linkedin.png" alt="LinkedIn" className="w-6 h-6" />, 
-      onClick: () => window.open("https://linkedin.com/in/areebkhan", "_blank") 
+      icon: <img src={linkn} alt="LinkedIn" className="w-6 h-6" />, 
+               
+      onClick: () => window.open("  https://www.linkedin.com/in/areeb-khan-533754317?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" , "_blank") 
+    },
+     { 
+      label: "LeetCode", 
+      icon: <img src= {Leetcode} alt="GitHub" className="w-6 h-6" />, 
+      onClick: () => window.open("https://leetcode.com/u/areeb_khan1603/", "_blank") 
     },
   ];
 
@@ -55,7 +62,7 @@ function Main() {
         />
 
         {/* Text Description */}
-        <div className="relative md:bottom-[86px] md:right-[30px] text-white p-8">
+        <div className="relative md:bottom-[86px] bottom-[200px] md:right-[30px] text-white p-8">
           <p className="text-base text-purple-400 mb-1">A Developer who</p>
 
           <h1 className="text-2xl md:text-xl font-bold leading-snug">
@@ -77,7 +84,7 @@ function Main() {
 
         {/* Typing Text */}
         <div>
-          <p className="text-2xl font-semibold">
+          <p className="text-3xl font-semibold relative md:left-[200px] md:bottom-0 bottom-[200px] ">
             I’m a{' '}
             <TextType
               as="span"
@@ -93,7 +100,7 @@ function Main() {
             />
           </p>
 
-          <p className="text-sm text-gray-400 relative md:top-[47px] md:right-[-70px] max-w-xl px-2">
+          <p className="text-sm text-gray-400 relative md:top-[47px] top-[-160px] md:right-[-200px] max-w-xl px-2">
             A self-taught UI/UX designer,🚀 B.Tech CSE student passionate about
             turning ideas into interactive web products. Top 8 @ CODE ASTRAA |
             Web Dev Intern | Exploring AI, design & modern tech.
@@ -109,7 +116,7 @@ function Main() {
       />
 
       {/* ---------------- Dock ---------------- */}
-      <div className="absolute bottom-0 left-0 w-full flex justify-center pb-6 z-50">
+      <div className="absolute rotate-0  bottom-[600px] md:bottom-0 left-0 w-full flex justify-center pb-6 z-50">
         <Dock 
           items={dockItems} 
           magnification={70} 
